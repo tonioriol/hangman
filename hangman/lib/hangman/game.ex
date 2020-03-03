@@ -44,9 +44,16 @@ defmodule Hangman.Game do
     Map.put(game, :game_state, new_state)
   end
 
-  def score_guess(game, _good_guess) do
-    #    won? -> :won, :good_guess
-    game
+  def score_guess(game = %{turns_left: 1}, _bad_guess) do
+    Map.put(game, :game_state, :lost)
+  end
+
+  def score_guess(game = %{turns_left: turns_left}, _bad_guess) do
+    %{
+      game |
+      game_state: :bad_guess,
+      turns_left: turns_left - 1
+    }
   end
 
   def maybe_won(true), do: :won
