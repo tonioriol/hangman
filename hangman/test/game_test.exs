@@ -82,6 +82,13 @@ defmodule GameTest do
     assert game.turns_left == 6
   end
 
+  test "invalid guess is recognized" do
+    game = Game.new("wibble")
+    game = Game.make_move(game, "xyz")
+    assert game.game_state == :invalid_guess
+    assert game.turns_left == 7
+  end
+
   test "lost game is recognized" do
     game = Game.new("w")
     game = Game.make_move(game, "a")

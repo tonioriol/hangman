@@ -24,7 +24,14 @@ defmodule Hangman.Game do
   end
 
   def make_move(game, guess) do
-    accept_move(game, guess, MapSet.member?(game.used, guess))
+    accept_move(
+      game,
+      guess,
+      %{
+        already_guessed: MapSet.member?(game.used, guess),
+        invalid_guess: invalid_guess?(guess)
+      }
+    )
   end
 
   def tally(game) do
@@ -38,13 +45,21 @@ defmodule Hangman.Game do
 
   ##################################################################
 
-  defp accept_move(game, _guess, _already_guessed = true) do
+  defp accept_move(game, _guess, %{invalid_guess: true}) do
+    Map.put(game, :game_state, :invalid_guess)
+  end
+
+  defp accept_move(game, _guess, %{already_guessed: true}) do
     Map.put(game, :game_state, :already_used)
   end
 
-  defp accept_move(game, guess, _already_guessed) do
+  defp accept_move(game, guess, _guess_checks) do
     Map.put(game, :used, MapSet.put(game.used, guess))
     |> score_guess(Enum.member?(game.letters, guess))
+  end
+
+  defp invalid_guess?(guess) do
+    (length String.codepoints(guess)) > 1 || String.downcase(guess) != guess
   end
 
   defp score_guess(game, _good_guess = true) do
