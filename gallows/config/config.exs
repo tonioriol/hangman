@@ -10,10 +10,10 @@ use Mix.Config
 # Configures the endpoint
 config :gallows, GallowsWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "be0dqZWCIicLjRF0vyA83ffVB7D7GgdrUL4WdEvKYfrkY31NQeR8ulp5Za3cMKhs",
+  secret_key_base: "E1ucu/ztBF2nP9nmAcNx2m0teO//+92IO0W4JvZW8tRiqLPuiVNW+dmHHfsVLL1/",
   render_errors: [view: GallowsWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Gallows.PubSub, adapter: Phoenix.PubSub.PG2],
-  live_view: [signing_salt: "TyThNaV3"]
+  live_view: [signing_salt: "dN3DG02E"]
 
 # Configures Elixir's Logger
 config :logger, :console,
